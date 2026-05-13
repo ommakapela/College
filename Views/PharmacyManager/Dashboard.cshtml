@@ -1,0 +1,205 @@
+﻿@{
+    ViewData["Title"] = "Pharmacy Manager Dashboard";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(to right, #f1fbe6, #e8f9d9);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .title {
+            text-align: center;
+            color: #007b5e;
+            margin-bottom: 40px;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 25px 20px;
+            box-shadow: 0 6px 15px rgba(0, 123, 94, 0.15);
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .dashboard-card::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 16px;
+                border: 2px solid transparent;
+                transition: border 0.3s ease-in-out;
+            }
+
+            .dashboard-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 10px 25px rgba(0, 123, 94, 0.2);
+            }
+
+                .dashboard-card:hover::after {
+                    border-color: #007b5e;
+                }
+
+        .dashboard-icon img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007b5e;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-description {
+            font-size: 15px;
+            color: #555;
+        }
+
+        .logout-link {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+            .logout-link a {
+                color: #dc3545;
+                font-weight: bold;
+                font-size: 16px;
+                text-decoration: none;
+                transition: color 0.3s ease-in-out;
+            }
+
+                .logout-link a:hover {
+                    color: #a71d2a;
+                }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="title">Pharmacy Manager Dashboard</h2>
+
+        <div class="dashboard-container">
+            <a asp-controller="Pharmacy" asp-action="ManageDetails" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/product-details.png" alt="Pharmacy Details" />
+                </div>
+                <div class="dashboard-title">Manage Pharmacy Details</div>
+                <div class="dashboard-description">Edit name, registration, contact info, and responsible pharmacist.</div>
+            </a>
+
+            <a asp-controller="ActiveIngredient" asp-action="Index" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/ingredients.png" alt="Active Ingredient" />
+                </div>
+                <div class="dashboard-title">Active Ingredients</div>
+                <div class="dashboard-description">Add, update or delete active ingredient records.</div>
+            </a>
+
+            <a asp-controller="DosageForm" asp-action="Index" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/informed-consent.png" alt="Dosage Form" />
+                </div>
+                <div class="dashboard-title">Dosage Forms</div>
+                <div class="dashboard-description">Maintain dosage form entries used in medications.</div>
+            </a>
+
+            <a asp-controller="Supplier" asp-action="Index" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/supplier.png" alt="Suppliers" />
+                </div>
+                <div class="dashboard-title">Medication Suppliers</div>
+                <div class="dashboard-description">Manage supplier records and contact details.</div>
+            </a>
+
+            <a asp-controller="Medication" asp-action="Index" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/healthcare.png" alt="Medication" />
+                </div>
+                <div class="dashboard-title">Medications</div>
+                <div class="dashboard-description">Manage medications, pricing, ingredients, and inventory.</div>
+            </a>
+
+            <a asp-controller="Doctor" asp-action="Index" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/stethoscope.png" alt="Doctors" />
+                </div>
+                <div class="dashboard-title">Doctors</div>
+                <div class="dashboard-description">Add and update doctor information for prescriptions.</div>
+            </a>
+
+            <a asp-controller="PharmacyManager" asp-action="ManagePharmacists" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/counter.png" alt="Pharmacists" />
+                </div>
+                <div class="dashboard-title">Pharmacist Users</div>
+                <div class="dashboard-description">Register and manage pharmacist user accounts.</div>
+            </a>
+
+            <a asp-controller="Stock" asp-action="Manage" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/product.png" alt="Stock" />
+                </div>
+                <div class="dashboard-title">Manage Stock</div>
+                <div class="dashboard-description">View, update, and adjust medication stock levels.</div>
+            </a>
+
+            <a asp-controller="Order" asp-action="Create" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/tracking.png" alt="Order Stock" />
+                </div>
+                <div class="dashboard-title">Order Stock</div>
+                <div class="dashboard-description">Place orders for low stock and track deliveries.</div>
+            </a>
+
+            <a asp-controller="Report" asp-action="GenerateStockReport" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/report.png" alt="Report" />
+                </div>
+                <div class="dashboard-title">Stock Take Report</div>
+                <div class="dashboard-description">Generate and print a PDF of current stock grouped by criteria.</div>
+            </a>
+        </div>
+
+        <div class="logout-link mt-5">
+            <a asp-area="Identity" asp-page="/Account/Logout">← Log Out</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,291 @@
+﻿@{
+    ViewData["Title"] = "Customer Dashboard";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ... (keep your old dashboard CSS here) ... */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(to right, #e6f7f1, #d9f0e6);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .title {
+            text-align: center;
+            color: #28a745;
+            margin-bottom: 40px;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .dashboard-card {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 25px 20px;
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.15);
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .dashboard-card::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 16px;
+                border: 2px solid transparent;
+                transition: border 0.3s ease-in-out;
+            }
+
+            .dashboard-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 10px 25px rgba(40, 167, 69, 0.2);
+            }
+
+                .dashboard-card:hover::after {
+                    border-color: #28a745;
+                }
+
+        .dashboard-icon img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-description {
+            font-size: 15px;
+            color: #555;
+        }
+
+        .logout-link {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+            .logout-link a {
+                color: #dc3545;
+                font-weight: bold;
+                font-size: 16px;
+                text-decoration: none;
+                transition: color 0.3s ease-in-out;
+            }
+
+                .logout-link a:hover {
+                    color: #a71d2a;
+                }
+
+        .card {
+            border-radius: 10px;
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .stats-card {
+            flex: 1 1 300px;
+            min-width: 250px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.15);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 8px solid #28a745;
+        }
+
+            .stats-card.warning {
+                border-left-color: #ffc107;
+            }
+
+            .stats-card.success {
+                border-left-color: #28a745;
+            }
+
+            .stats-card.primary {
+                border-left-color: #007bff;
+            }
+
+        .stats-icon {
+            font-size: 48px;
+            opacity: 0.5;
+        }
+
+        .stats-content h6 {
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .stats-content h2 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .opacity-50 {
+            opacity: 0.5;
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Welcome to Your Dashboard</h2>
+
+        <!-- Statistics Cards (from new dashboard) -->
+        <div class="stats-row">
+            <div class="stats-card primary">
+                <div class="stats-content">
+                    <h6>Total Prescriptions</h6>
+                    <h2>@ViewBag.TotalPrescriptions</h2>
+                </div>
+                <div class="stats-icon text-primary">
+                    <i class="fas fa-prescription"></i>
+                </div>
+            </div>
+            <div class="stats-card warning">
+                <div class="stats-content">
+                    <h6>Pending Processing</h6>
+                    <h2>@ViewBag.PendingPrescriptions</h2>
+                </div>
+                <div class="stats-icon text-warning">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+            <div class="stats-card success">
+                <div class="stats-content">
+                    <h6>Ready for Collection</h6>
+                    <h2>@ViewBag.ReadyForCollection</h2>
+                </div>
+                <div class="stats-icon text-success">
+                    <i class="fas fa-hand-holding-medical"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions (from old dashboard) -->
+        <div class="dashboard-container">
+            <!-- Upload Prescription -->
+            <a asp-controller="Customer" asp-action="UploadPrescription" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/upload.png" alt="Upload Icon" />
+                </div>
+                <div class="dashboard-title">Upload Prescription</div>
+                <div class="dashboard-description">Upload your new prescription (PDF) and request to have it dispensed.</div>
+            </a>
+            <!-- Manage Repeats -->
+            <a asp-controller="Customer" asp-action="ManageRepeats" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/routine.png" alt="Repeats Icon" />
+                </div>
+                <div class="dashboard-title">Manage Repeats</div>
+                <div class="dashboard-description">Check how many repeats are left and request refills for your meds.</div>
+            </a>
+            <!-- Generate Report -->
+            <a asp-controller="Customer" asp-action="GenerateReport" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/report.png" alt="Report Icon" />
+                </div>
+                <div class="dashboard-title">Generate Reports</div>
+                <div class="dashboard-description">Download and view reports grouped by doctor, medicine, or visit.</div>
+            </a>
+            <!-- View Orders -->
+            <a asp-controller="Customer" asp-action="ViewOrders" class="dashboard-card">
+                <div class="dashboard-icon">
+                    <img src="~/images/order-history (1).png" alt="Orders Icon" />
+                </div>
+                <div class="dashboard-title">View Orders</div>
+                <div class="dashboard-description">Track your past and current prescription orders.</div>
+            </a>
+        </div>
+
+        <!-- How It Works (from new dashboard) -->
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-question-circle"></i> How It Works</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 text-center mb-3">
+                                <div class="step-circle bg-primary text-white mb-3">1</div>
+                                <h6>Upload Prescription</h6>
+                                <p class="small text-muted">Submit your prescription PDF</p>
+                            </div>
+                            <div class="col-md-3 text-center mb-3">
+                                <div class="step-circle bg-warning text-white mb-3">2</div>
+                                <h6>Pharmacist Reviews</h6>
+                                <p class="small text-muted">A pharmacist processes your prescription</p>
+                            </div>
+                            <div class="col-md-3 text-center mb-3">
+                                <div class="step-circle bg-success text-white mb-3">3</div>
+                                <h6>Medication Dispensed</h6>
+                                <p class="small text-muted">Your medication is prepared</p>
+                            </div>
+                            <div class="col-md-3 text-center mb-3">
+                                <div class="step-circle bg-info text-white mb-3">4</div>
+                                <h6>Collect</h6>
+                                <p class="small text-muted">Pick up your prescription</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="logout-link mt-5">
+            <a asp-area="Identity" asp-page="/Account/Logout">← Log Out</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+﻿@{
+    ViewData["Title"] = "Pharmacist Dashboard";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2><i class="fas fa-user-md"></i> Pharmacist Dashboard</h2>
+            <p class="text-muted">Manage and process prescriptions</p>
+            <hr />
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow border-0 border-start border-warning border-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Pending Processing</h6>
+                            <h2 class="mb-0 text-warning">@ViewBag.PendingCount</h2>
+                            <small class="text-muted">Waiting for review</small>
+                        </div>
+                        <div class="text-warning">
+                            <i class="fas fa-clock fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a asp-action="PendingPrescriptions" class="btn btn-warning btn-sm w-100">
+                            <i class="fas fa-arrow-right"></i> Process Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow border-0 border-start border-primary border-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Ready to Dispense</h6>
+                            <h2 class="mb-0 text-primary">@ViewBag.ProcessedCount</h2>
+                            <small class="text-muted">Awaiting dispensing</small>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-pills fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a asp-action="Dispense" class="btn btn-primary btn-sm w-100">
+                            <i class="fas fa-arrow-right"></i> Dispense Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow border-0 border-start border-success border-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-1">Ready for Collection</h6>
+                            <h2 class="mb-0 text-success">@ViewBag.ReadyForCollectionCount</h2>
+                            <small class="text-muted">Waiting pickup</small>
+                        </div>
+                        <div class="text-success">
+                            <i class="fas fa-hand-holding-medical fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <a asp-action="ReadyForCollection" class="btn btn-success btn-sm w-100">
+                            <i class="fas fa-arrow-right"></i> View Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workflow Overview -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-project-diagram"></i> Prescription Workflow</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-2 mb-3">
+                            <div class="workflow-step">
+                                <div class="workflow-circle bg-secondary text-white">
+                                    <i class="fas fa-upload fa-2x"></i>
+                                </div>
+                                <h6 class="mt-2">Customer Upload</h6>
+                                <small class="text-muted">PDF submitted</small>
+                            </div>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-arrow-right fa-2x text-muted"></i>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="workflow-step">
+                                <div class="workflow-circle bg-warning text-white">
+                                    <i class="fas fa-edit fa-2x"></i>
+                                </div>
+                                <h6 class="mt-2">Process</h6>
+                                <small class="text-muted">Review & add details</small>
+                            </div>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-arrow-right fa-2x text-muted"></i>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="workflow-step">
+                                <div class="workflow-circle bg-primary text-white">
+                                    <i class="fas fa-pills fa-2x"></i>
+                                </div>
+                                <h6 class="mt-2">Dispense</h6>
+                                <small class="text-muted">Prepare medication</small>
+                            </div>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-arrow-right fa-2x text-muted"></i>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="workflow-step">
+                                <div class="workflow-circle bg-success text-white">
+                                    <i class="fas fa-check fa-2x"></i>
+                                </div>
+                                <h6 class="mt-2">Collection</h6>
+                                <small class="text-muted">Customer pickup</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-tasks"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="PendingPrescriptions" class="text-decoration-none">
+                                <div class="quick-action-card bg-warning">
+                                    <i class="fas fa-clock fa-3x mb-2"></i>
+                                    <h6>Pending Prescriptions</h6>
+                                    <p class="small mb-0">Process uploaded prescriptions</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="Dispense" class="text-decoration-none">
+                                <div class="quick-action-card bg-primary">
+                                    <i class="fas fa-pills fa-3x mb-2"></i>
+                                    <h6>Dispense</h6>
+                                    <p class="small mb-0">Dispense processed prescriptions</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="ReadyForCollection" class="text-decoration-none">
+                                <div class="quick-action-card bg-success">
+                                    <i class="fas fa-hand-holding-medical fa-3x mb-2"></i>
+                                    <h6>Collections</h6>
+                                    <p class="small mb-0">Mark prescriptions as collected</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="AllPrescriptions" class="text-decoration-none">
+                                <div class="quick-action-card bg-secondary">
+                                    <i class="fas fa-list fa-3x mb-2"></i>
+                                    <h6>All Prescriptions</h6>
+                                    <p class="small mb-0">View complete prescription list</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="ViewCustomers" class="text-decoration-none">
+                                <div class="quick-action-card bg-info">
+                                    <i class="fas fa-users fa-3x mb-2"></i>
+                                    <h6>View Customers</h6>
+                                    <p class="small mb-0">Customer management</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="ViewStock" class="text-decoration-none">
+                                <div class="quick-action-card bg-dark">
+                                    <i class="fas fa-boxes fa-3x mb-2"></i>
+                                    <h6>Stock Management</h6>
+                                    <p class="small mb-0">View and manage inventory</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="Appointments" class="text-decoration-none">
+                                <div class="quick-action-card bg-purple">
+                                    <i class="fas fa-calendar-check fa-3x mb-2"></i>
+                                    <h6>Appointments</h6>
+                                    <p class="small mb-0">View scheduled appointments</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <a asp-action="Report" class="text-decoration-none">
+                                <div class="quick-action-card bg-teal">
+                                    <i class="fas fa-chart-bar fa-3x mb-2"></i>
+                                    <h6>Reports</h6>
+                                    <p class="small mb-0">Generate reports</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .opacity-50 {
+        opacity: 0.5;
+    }
+
+    .workflow-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .workflow-step {
+        padding: 10px;
+    }
+
+    .quick-action-card {
+        padding: 30px 20px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+
+        .quick-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+    .bg-purple {
+        background-color: #6f42c1;
+    }
+
+    .bg-teal {
+        background-color: #20c997;
+    }
+</style>

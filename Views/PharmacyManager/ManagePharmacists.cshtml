@@ -1,0 +1,138 @@
+﻿@* @model IEnumerable<ibhayiPharmacy.Areas.Identity.Data.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Manage Pharmacists";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            background-color: #ffffff;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .btn {
+            min-width: 90px;
+        }
+
+        @@media (max-width: 768px) {
+            th, td {
+                white-space: normal;
+                font-size: 0.875rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .btn {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-wrap py-5">
+        <div class="row justify-content-center mx-2">
+            <div class="col-xl-10 col-lg-11">
+                <div class="card">
+                    <h2 class="text-center text-primary mb-4">Manage Pharmacists</h2>
+
+                    <div class="text-end mb-3">
+                        <a asp-action="RegisterPharmacist" class="btn btn-success">+ Register Pharmacist</a>
+                    </div>
+
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success text-center">
+                            @TempData["Success"]
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger text-center">
+                            @TempData["Error"]
+                        </div>
+                    }
+
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-info text-center">
+                            No pharmacists have been registered yet.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Surname</th>
+                                        <th>Cellphone</th>
+                                        <th>ID Number</th>
+                                        <th>Health Reg. No.</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var pharmacist in Model)
+                                    {
+                                        <tr>
+                                            <td>@pharmacist.Email</td>
+                                            <td>@pharmacist.Name</td>
+                                            <td>@pharmacist.Surname</td>
+                                            <td>@pharmacist.Cellphone</td>
+                                            <td>@pharmacist.IdNumber</td>
+                                            <td>@pharmacist.HealthCouncilRegNumber</td>
+                                            <td>
+                                                <a asp-action="EditPharmacist" asp-route-id="@pharmacist.Id" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                                <form asp-action="DeletePharmacist" asp-route-id="@pharmacist.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this pharmacist?');">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <div class="mt-4 text-center">
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">← Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+ *@

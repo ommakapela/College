@@ -1,0 +1,181 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ibhayi Pharmacy Prescription System</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/fonts/flaticon/font/flaticon.css" />
+    <link rel="stylesheet" href="~/css/magnific-popup.css" />
+    <link rel="stylesheet" href="~/css/jquery-ui.css" />
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="~/css/aos.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+
+<body>
+    <div class="site-wrap">
+
+        <div class="site-navbar py-2">
+            <div class="container">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="logo">
+                        <div class="site-logo">
+                            <a href="~/Index.html" class="js-logo-clone"><strong class="text-primary">Ibhayi</strong> Pharmacy</a>
+                        </div>
+                    </div>
+                    <div class="main-nav d-none d-lg-block">
+                        <nav class="site-navigation text-right text-md-center" role="navigation">
+                            <ul class="site-menu js-clone-nav d-none d-lg-block">
+                                <li class="active"><a href="~/Index.html">Home</a></li>
+                                <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                                <li><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                                <li><a href="~/#about">About the System</a></li>
+                                <li><a href="~/#contact">Contact Us</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="owl-carousel owl-single px-0">
+            <div class="site-blocks-cover overlay" style="position: relative; overflow: hidden;">
+                <!-- Background image as an absolutely positioned <img> -->
+                <img src="~/images/hero_bg.jpg" alt="Background"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;" />
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 mx-auto align-self-center">
+                            <div class="site-block-cover-content text-center">
+                                <h1 class="mb-0"><strong class="text-primary">Ibhayi Pharmacy</strong> Prescription Portal</h1>
+                                <div class="row justify-content-center mb-5">
+                                    <div class="col-lg-6 text-center">
+                                        <p>A secure and efficient platform to manage prescriptions, medication, and stock.</p>
+                                    </div>
+                                </div>
+                                <p>
+                                    <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary px-5 py-3">Login</a>
+                                    <a asp-area="Identity" asp-page="/Account/Register"
+                                        class="btn btn-outline-primary px-5 py-3">Register</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="about" class="site-section py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="feature">
+                            <span class="wrap-icon flaticon-test-tubes"></span>
+                            <h3><a href="#">Load Prescriptions</a></h3>
+                            <p>Pharmacists and customers can upload and manage prescriptions online.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="feature">
+                            <span class="wrap-icon flaticon-medicine"></span>
+                            <h3><a href="#">Stock Management</a></h3>
+                            <p>Managers can monitor inventory and place medication orders efficiently.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="feature">
+                            <span class="wrap-icon flaticon-24-hours-drugs-delivery"></span>
+                            <h3><a href="#">Secure Access</a></h3>
+                            <p>Each user has role-specific access with encrypted password protection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-section">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-6">
+                        <div class="title-section">
+                            <h2>System <strong class="text-primary">Benefits</strong></h2>
+                        </div>
+                        <div class="step-number d-flex mb-4">
+                            <span>1</span>
+                            <p>Fast and secure prescription uploads for customers and pharmacists.</p>
+                        </div>
+                        <div class="step-number d-flex mb-4">
+                            <span>2</span>
+                            <p>Real-time medication tracking and stock level monitoring.</p>
+                        </div>
+                        <div class="step-number d-flex mb-4">
+                            <span>3</span>
+                            <p>Instant notifications when prescriptions are ready for pickup.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer id="contact" class="site-footer bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                        <div class="block-7">
+                            <h3 class="footer-heading mb-4">About <strong class="text-primary">Ibhayi Pharmacy</strong></h3>
+                            <p>We provide a secure prescription management system serving Nelson Mandela Bay and surrounding
+                                areas.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
+                        <h3 class="footer-heading mb-4">Navigation</h3>
+                        <ul class="list-unstyled">
+                            <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                            <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                            <li><a href="~/#about">About</a></li>
+                            <li><a href="~/#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="block-5 mb-5">
+                            <h3 class="footer-heading mb-4">Contact Info</h3>
+                            <ul class="list-unstyled">
+                                <li class="address">Nelson Mandela Bay, Eastern Cape, South Africa</li>
+                                <li class="phone"><a href="~/tel://0411234567">041 123 4567</a></li>
+                                <li class="email">info@ibhayipharmacy.co.za</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-5 mt-5 text-center">
+                    <div class="col-md-12">
+                        <p>&copy; <script>document.write(new Date().getFullYear());</script> Ibhayi Pharmacy Prescription System</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/aos.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+
+</html>

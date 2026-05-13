@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "Upload Prescription";
+    var customer = ViewBag.CurrentCustomer;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-upload"></i> Upload Prescription
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle"></i> @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-info-circle"></i> How it works:</h5>
+                        <ol class="mb-0">
+                            <li>Upload your prescription PDF file</li>
+                            <li>A pharmacist will review and process your prescription</li>
+                            <li>You'll be notified when it's ready for collection</li>
+                        </ol>
+                    </div>
+
+                    <form asp-action="UploadPrescription" method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <h5>Patient Information</h5>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <p class="mb-1"><strong>Name:</strong> @customer.FullName</p>
+                                    <p class="mb-1"><strong>ID Number:</strong> @customer.IdNumber</p>
+                                    <p class="mb-1"><strong>Cellphone:</strong> @customer.Cellphone</p>
+                                    @if (!string.IsNullOrEmpty(customer.Allergies))
+                                    {
+                                        <p class="mb-0 text-danger">
+                                            <strong><i class="fas fa-exclamation-triangle"></i> Allergies:</strong> @customer.Allergies
+                                        </p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="PatientIDNumber" class="form-label">
+                                Patient ID Number (Optional)
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="PatientIDNumber"
+                                   name="PatientIDNumber"
+                                   placeholder="Enter patient ID if different from yours"
+                                   maxlength="13">
+                            <small class="form-text text-muted">
+                                Leave blank if prescription is for yourself
+                            </small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="PrescriptionFile" class="form-label">
+                                <i class="fas fa-file-pdf"></i> Prescription PDF File *
+                            </label>
+                            <input type="file"
+                                   class="form-control"
+                                   id="PrescriptionFile"
+                                   name="PrescriptionFile"
+                                   accept=".pdf"
+                                   required>
+                            <small class="form-text text-muted">
+                                Maximum file size: 5MB. Only PDF files accepted.
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-upload"></i> Upload Prescription
+                            </button>
+                            <a asp-action="MyPrescriptions" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to My Prescriptions
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb"></i> Tips for Best Results</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>Ensure your prescription is clearly scanned or photographed</li>
+                        <li>Make sure all text is readable</li>
+                        <li>Include all pages if your prescription has multiple pages</li>
+                        <li>Convert images to PDF format before uploading</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+</style>

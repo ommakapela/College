@@ -1,0 +1,127 @@
+﻿@model List<ibhayiPharmacy.Models.Prescription>
+
+@{
+    ViewData["Title"] = "Dispense Prescriptions";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2><i class="fas fa-pills"></i> Dispense Prescriptions</h2>
+            <p class="text-muted">Process and dispense approved prescriptions</p>
+            <hr />
+        </div>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No prescriptions ready for dispensing at the moment.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-primary mb-4">
+            <i class="fas fa-info-circle"></i>
+            <strong>@Model.Count</strong> prescription(s) ready for dispensing
+        </div>
+
+        <div class="row">
+            @foreach (var prescription in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-header bg-primary text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-prescription"></i> RX@prescription.Id.ToString("D6")
+                                </h5>
+                                <span class="badge bg-light text-dark">@prescription.Status</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2">
+                                <strong><i class="fas fa-user"></i> Patient:</strong><br>
+                                @prescription.PatientName
+                            </p>
+                            <p class="mb-2">
+                                <strong><i class="fas fa-user-md"></i> Doctor:</strong><br>
+                                @prescription.Doctor?.FullName
+                            </p>
+                            <p class="mb-2">
+                                <strong><i class="fas fa-calendar"></i> Date:</strong>
+                                @prescription.PrescriptionDate.ToString("dd MMM yyyy")
+                            </p>
+                            <p class="mb-2">
+                                <strong><i class="fas fa-clock"></i> Processed:</strong>
+                                @prescription.ProcessedDate?.ToString("dd MMM yyyy HH:mm")
+                            </p>
+
+                            <hr>
+
+                            <p class="mb-2">
+                                <strong><i class="fas fa-pills"></i> Medications:</strong>
+                            </p>
+                            <ul class="list-group list-group-flush mb-3">
+                                @foreach (var item in prescription.Items)
+                                {
+                                    <li class="list-group-item px-0 py-1">
+                                        <small>
+                                            • @item.Medication?.Name
+                                            <span class="badge bg-secondary">Qty: @item.Quantity</span>
+                                            @if (item.Repeats > 0)
+                                            {
+                                                <span class="badge bg-info">Repeats: @item.Repeats</span>
+                                            }
+                                        </small>
+                                    </li>
+                                }
+                            </ul>
+
+                            @if (prescription.TotalAmount > 0)
+                            {
+                                <div class="alert alert-success mb-0">
+                                    <strong>Total: R@prescription.TotalAmount.ToString("F2")</strong>
+                                </div>
+                            }
+                        </div>
+                        <div class="card-footer bg-light">
+                            <form asp-action="DispensePrescription" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@prescription.Id" />
+                                <button type="submit" class="btn btn-success w-100"
+                                        onclick="return confirm('Confirm dispensing prescription RX@prescription.Id.ToString(" D6")?');">
+                                    <i class="fas fa-check"></i> Dispense
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .list-group-item {
+        border: none;
+        background: none;
+    }
+</style>

@@ -1,0 +1,239 @@
+﻿@{
+    ViewData["Title"] = "Upload Prescription";
+    // Layout = "~/Views/Shared/Pharmacy.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(to right, #f8fbff, #eaf2fb);
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #28a745;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .form-section,
+        .table-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 1000px;
+            margin: 20px auto;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        .drop-box {
+            border: 2px dashed #007bff;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            background-color: #f0f8ff;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 15px;
+            display: block;
+            margin: 15px 0 10px;
+            color: #333;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-order {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #fff;
+        }
+
+        .btn-remove {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-view {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th, td {
+            padding: 14px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+
+        h3 {
+            margin-top: 40px;
+            color: #007bff;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .back-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+            .back-btn a {
+                padding: 10px 25px;
+                background-color: #6c757d;
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                transition: background-color 0.3s;
+            }
+
+                .back-btn a:hover {
+                    background-color: #495057;
+                }
+    </style>
+</head>
+
+<body>
+
+    <h2>Upload Prescription</h2>
+
+    <div class="form-section">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group mb-4">
+                <label class="visually-hidden" for="customername"><h1>Customer's Name</h1>Customer's Name</label>
+                <select class="form-select" id="nameSelect">
+                    <option value="Penicillin">Nolitha Ngwenya</option>
+                    <option value="Aspirin">Liso Silo</option>
+                    <option value="Ibuprofen">Cheryl Meintjies</option>
+
+                </select>
+                @* <span asp-validation-for="Input.Doctor" class="text-danger"></span> *@
+
+            </div>
+            <div class="drop-box">
+                Drag & Drop or <input type="file" name="PrescriptionFile" />
+            </div>
+            <div class="form-group mb-4">
+                <label class="visually-hidden" for="doctorname"><h1>Doctor's Name</h1>Doctor's Name</label>
+                <select class="form-select" id="doctorSelect">
+                    <option value="Penicillin">Dr Lwandle</option>
+                    <option value="Aspirin">Dr Lubisi</option>
+                    <option value="Ibuprofen">Dr Zikode</option>
+
+                </select>
+                @* <span asp-validation-for="Input.Doctor" class="text-danger"></span> *@
+
+            </div>
+            <label>
+                <input type="checkbox" name="DispenseNow" /> Approve Prescription
+            </label>
+
+            <button class="btn btn-order mt-3" type="submit">Submit</button>
+        </form>
+    </div>
+   @*  <img src="~/images/browser-search-bar-template-simple-minimal-design-with-magnifying-glass-search-icon-free-free-vector.jpg" height="400" width="400" alt="search" /> *@
+    <div class="table-section">
+        <h3>Unprocessed Prescriptions</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>File</th>
+                    <th>Doctor</th>
+                    <th>Approved</th>
+                    <th>Approve</th>
+                    <th>Reject</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-05-19</td>
+                    <td>script1.pdf</td>
+                    <td>Dr Lubisi</td>
+                    <td>No</td>
+                    <td><button class="btn btn-edit">Approve</button></td>
+                    <td><button class="btn btn-remove">Reject</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Processed Prescriptions</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Medicine</th>
+                    <th>View</th>
+                    <th>Dispense</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-05-15</td>
+                    <td>Dr. Smith</td>
+                    <td>Ibuprofen</td>
+                    <td><a asp-controller="Pharmacist" asp-action="ManageRepeats" class="btn btn-primary">Repeat</a></button></td>
+                    <td><a asp-controller="Pharmacist" asp-action="Dispense" class="btn btn-primary">Dispense</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="back-btn">
+        <a href="/Pharmacist/Dashboard">← Back to Dashboard</a>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,355 @@
+﻿ @model ibhayiPharmacy.Areas.Identity.Data.ApplicationUser
+
+@{
+    ViewData["Title"] = "Stock Pharmacy ";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <div class="site-wrap">
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-lg p-4">
+                        <h2 class="text-center text-primary mb-4">Stock Details</h2>
+
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-success text-center">
+                                @TempData["Success"]
+                            </div>
+                        }
+
+                        <form asp-action="RegisterPharmacist" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Name" class="form-control" placeholder="" />
+                                <label asp-for="Name">Medicine Name</label>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Surname" class="form-control" placeholder="" />
+                                <label asp-for="Surname">Brand Name</label>
+                                <span asp-validation-for="Surname" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group m-mb-3">
+                                <label class="visually-hidden" for="DosageName">Dosage</label>
+                                <select class="form-select" id="DosageSelect">
+                                    <option value="tablet">Tablet</option>
+                                    <option value="syrup">Syrup</option>
+                                    <option value="inject">Inject</option>
+
+
+                                </select>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="IdNumber" class="form-control" placeholder="I" />
+                                <label asp-for="IdNumber">Strength</label>
+                                <span asp-validation-for="IdNumber" class="text-danger"></span>
+                            </div>
+                            <h2>Stock Details</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Cellphone" class="form-control" placeholder="" />
+                                <label asp-for="Cellphone">Quantity Received</label>
+                                <span asp-validation-for="Cellphone" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Cellphone" class="form-control" placeholder="" />
+                                <label asp-for="Cellphone">Batch Number</label>
+                                <span asp-validation-for="Cellphone" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="date" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Expiry Date</label>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="date" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Manufacturing Date</label>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="number" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Unit Price</label>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="number" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Selling Price</label>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div> 
+                            <h2>Supplier Information</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="text" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Supplier Name</label>>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="number" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Supplier Invoince Number</label>>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="date" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Date of Purchase</label>>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group m-mb-3">
+                                <label class="visually-hidden" for="DosageName">Storage Location</label>
+                                <select class="form-select" id="DosageSelect">
+                                    <option value="tablet">Shelf A</option>
+                                    <option value="syrup">Shelf B</option>
+                                    <option value="inject">Shelf C</option>
+
+
+                                </select>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+
+                            </div>
+                            <h2 class="text-center text-primary">Receiver Information</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="HealthCouncilRegNumber" type="date" class="form-control" placeholder="" />
+                                <label asp-for="HealthCouncilRegNumber">Entry Date</label>
+                                <span asp-validation-for="HealthCouncilRegNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group m-mb-3">
+                                <label class="visually-hidden" for="DosageName">Entered By</label>
+                                <select class="form-select" id="DosageSelect">
+                                    <option value="tablet">Mr M Luvo</option>
+                                    <option value="syrup">Ms S Baxa</option>
+                                    <option value="inject">Mr L Tingo</option>
+
+
+                                </select>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+                            <div class="mt-3 text-center">
+                                <a asp-controller="Pharmacist" asp-action="ViewStock" class="btn btn-primary">View</a>
+                                <a asp-controller="Pharmacist" asp-action="Dashboard" class="btn btn-primary">Dashboard</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+
+</html>
+
+@* @page
+@using ibhayiPharmacy.Areas.Identity.Pages.Account
+@{
+    // Layout = "~/Views/Shared/Pharmacy.cshtml";
+}
+@model RegisterModel
+@{
+    ViewData["Title"] = "Stock";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Choices.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+</head>
+
+<body>
+    <div class="site-wrap">
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-lg p-4">
+                        <h2 class="text-center text-primary mb-4">Manage Inventory</h2>
+                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+                            <h2 class="text-center text-primary">Medicine</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Name" class="form-control" placeholder=" " />
+                                <label asp-for="Input.Name">Medicine Name</label>
+                                <span asp-validation-for="Input.Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Surname" class="form-control" placeholder=" " />
+                                <label asp-for="Input.Surname">Brand Name</label>
+                                <span asp-validation-for="Input.Surname" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="allergiesSelect">Dosage Form</label>
+                                <select id="allergiesSelect" class="form-control" multiple>
+                                    <option value="Penicillin">Tablet</option>
+                                    <option value="Aspirin">Syrup</option>
+                                    <option value="Ibuprofen">Inject</option>
+                                   
+                                </select>
+                                <span asp-validation-for="Input.Allergies" class="text-danger"></span>
+                                <small class="form-text text-muted">You can select multiple.</small>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Cellphone" class="form-control" placeholder=" " />
+                                <label asp-for="Input.Cellphone">Strength</label>
+                                <span asp-validation-for="Input.Cellphone" class="text-danger"></span>
+                            </div>
+                            <h2 class="text-center text-primary">Stock Details</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder=" " />
+                                <label asp-for="Input.Email">Quantity Received</label>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.Password">Batch Number</label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Date" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.Date">Expiry Date</label>
+                                <span asp-validation-for="Input.Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Date" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.Date">Manufacturing Date</label>
+                                <span asp-validation-for="Input.Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.ConfirmPassword">Unit Price</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.ConfirmPassword">Selling Price</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div> 
+                            <h2 class="text-center text-primary">Supplier Information</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder=" " />
+                                <label asp-for="Input.Email">Supplier Name</label>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.Password">Supplier Invoice Number</label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Date" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.Date">Date of Purchase</label>
+                                <span asp-validation-for="Input.Date" class="text-danger"></span>
+                            </div>
+                            <h2 class="text-center text-primary">Storage Information</h2>
+                            <div class="form-group mb-4">
+                                <label for="allergiesSelect">Storage Location</label>
+                                <select id="allergiesSelect" class="form-control" multiple>
+                                    <option value="Penicillin">Shelf A</option>
+                                    <option value="Aspirin">Shelf B</option>
+                                    <option value="Ibuprofen">Shelf C</option>
+                                    
+                                </select>
+                                <span asp-validation-for="Input.Allergies" class="text-danger"></span>
+                                <small class="form-text text-muted">You can select multiple.</small>
+                            </div>
+                            <h2 class="text-center text-primary">Receiver Information</h2>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Date" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.Date">Entry Date</label>
+                                <span asp-validation-for="Input.Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder=" " />
+                                <label asp-for="Input.ConfirmPassword">Entered By</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            
+
+                
+                            <button id="registerSubmit" type="submit" class="btn btn-primary w-100">Submit</button>
+                        </form>
+
+                        <hr class="my-4" />
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">← Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Scripts -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <script>
+        const allergiesSelect = document.getElementById('allergiesSelect');
+        const choices = new Choices(allergiesSelect, {
+            removeItemButton: true,
+            placeholderValue: 'Select or type allergies',
+            duplicateItemsAllowed: false,
+        });
+
+        // Convert selected values into a hidden input on submit
+        document.getElementById('registerForm').addEventListener('submit', function () {
+            const selected = choices.getValue(true); // array of selected values
+            allergiesSelect.name = ""; // prevent default model binding
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'Input.Allergies';
+            hiddenInput.value = selected.join(', ');
+            this.appendChild(hiddenInput);
+        });
+    </script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+
+</html>
+ *@ 

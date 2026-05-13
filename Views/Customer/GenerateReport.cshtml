@@ -1,0 +1,324 @@
+﻿@{
+    ViewData["Title"] = "Generate Report";
+}
+
+<div class="container-fluid mt-4 mb-5">
+    <!-- Back Button -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <a href="@Url.Action("Dashboard")" class="btn btn-outline-success btn-lg">
+                <i class="fas fa-home"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h1 class="display-4 mb-2">
+                        <i class="fas fa-file-pdf"></i> Generate Prescription Report
+                    </h1>
+                    <p class="lead mb-0">Create a detailed report of your dispensed prescriptions</p>
+                </div>
+                <div class="card-body p-5">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show shadow-sm">
+                            <i class="fas fa-check-circle"></i> <strong>Success!</strong> @TempData["Success"]
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show shadow-sm">
+                            <i class="fas fa-exclamation-circle"></i> <strong>Error!</strong> @TempData["Error"]
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        </div>
+                    }
+
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle"></i> <strong>Report Information:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Select a date range for your prescription history</li>
+                            <li>Choose how to group your prescriptions (by Doctor or Medication)</li>
+                            <li>The report will be generated as a PDF document</li>
+                        </ul>
+                    </div>
+
+                    <form asp-action="GenerateReport" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Date Range Section -->
+                        <div class="section-header mb-4">
+                            <h4 class="text-primary">
+                                <i class="fas fa-calendar-alt"></i> Date Range
+                            </h4>
+                            <hr class="section-line">
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="FromDate" class="form-label-lg">
+                                    <i class="fas fa-calendar-day"></i> From Date <span class="text-danger">*</span>
+                                </label>
+                                <input type="date"
+                                       class="form-control form-control-lg"
+                                       id="FromDate"
+                                       name="FromDate"
+                                       required
+                                       max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="ToDate" class="form-label-lg">
+                                    <i class="fas fa-calendar-check"></i> To Date <span class="text-danger">*</span>
+                                </label>
+                                <input type="date"
+                                       class="form-control form-control-lg"
+                                       id="ToDate"
+                                       name="ToDate"
+                                       required
+                                       max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDateRange('lastMonth')">
+                                <i class="fas fa-calendar"></i> Last Month
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDateRange('last3Months')">
+                                <i class="fas fa-calendar"></i> Last 3 Months
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDateRange('last6Months')">
+                                <i class="fas fa-calendar"></i> Last 6 Months
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDateRange('thisYear')">
+                                <i class="fas fa-calendar"></i> This Year
+                            </button>
+                        </div>
+
+                        <!-- Grouping Section -->
+                        <div class="section-header mb-4 mt-5">
+                            <h4 class="text-primary">
+                                <i class="fas fa-layer-group"></i> Group By
+                            </h4>
+                            <hr class="section-line">
+                        </div>
+
+                        <div class="grouping-options mb-4">
+                            <div class="form-check form-check-lg mb-3 p-4 bg-light rounded border">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="GroupBy"
+                                       id="groupByDoctor"
+                                       value="Doctor"
+                                       checked>
+                                <label class="form-check-label-lg" for="groupByDoctor">
+                                    <i class="fas fa-user-md text-primary"></i> <strong>Group by Doctor</strong>
+                                    <br />
+                                    <small class="text-muted">Organize prescriptions by prescribing doctor</small>
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-lg mb-3 p-4 bg-light rounded border">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="GroupBy"
+                                       id="groupByMedication"
+                                       value="Medication">
+                                <label class="form-check-label-lg" for="groupByMedication">
+                                    <i class="fas fa-pills text-primary"></i> <strong>Group by Medication</strong>
+                                    <br />
+                                    <small class="text-muted">Organize prescriptions by medication type</small>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 shadow">
+                                <i class="fas fa-file-download"></i> Generate PDF Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Set default dates on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set To Date to today
+            document.getElementById('ToDate').value = new Date().toISOString().split('T')[0];
+
+            // Set From Date to 6 months ago
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+            document.getElementById('FromDate').value = sixMonthsAgo.toISOString().split('T')[0];
+        });
+
+        // Quick date range buttons
+        function setDateRange(range) {
+            const today = new Date();
+            const toDate = document.getElementById('ToDate');
+            const fromDate = document.getElementById('FromDate');
+
+            toDate.value = today.toISOString().split('T')[0];
+
+            let startDate = new Date();
+
+            switch(range) {
+                case 'lastMonth':
+                    startDate.setMonth(startDate.getMonth() - 1);
+                    break;
+                case 'last3Months':
+                    startDate.setMonth(startDate.getMonth() - 3);
+                    break;
+                case 'last6Months':
+                    startDate.setMonth(startDate.getMonth() - 6);
+                    break;
+                case 'thisYear':
+                    startDate = new Date(today.getFullYear(), 0, 1);
+                    break;
+            }
+
+            fromDate.value = startDate.toISOString().split('T')[0];
+        }
+
+        // Validate date range before submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fromDate = new Date(document.getElementById('FromDate').value);
+            const toDate = new Date(document.getElementById('ToDate').value);
+
+            if (fromDate > toDate) {
+                e.preventDefault();
+                alert('From Date cannot be after To Date');
+                return false;
+            }
+        });
+    </script>
+}
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #7bed9f 0%, #2ed573 100%);
+    }
+
+    .section-header h4 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-line {
+        border-top: 3px solid #7bed9f;
+        width: 80px;
+        margin: 0.5rem 0 1rem 0;
+    }
+
+    .form-label-lg {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control-lg {
+        font-size: 1.1rem;
+        padding: 0.75rem 1rem;
+        border: 2px solid #dee2e6;
+    }
+
+        .form-control-lg:focus {
+            border-color: #7bed9f;
+            box-shadow: 0 0 0 0.25rem rgba(123, 237, 159, 0.25);
+        }
+
+    .form-check-input {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-top: 0.15rem;
+        cursor: pointer;
+    }
+
+    .form-check-label-lg {
+        font-size: 1.15rem;
+        cursor: pointer;
+        padding-left: 0.5rem;
+    }
+
+    .form-check-lg {
+        padding-left: 2.5rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-check-lg:hover {
+            background-color: #f0fdf4 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(46, 213, 115, 0.2);
+        }
+
+    .grouping-options .form-check {
+        border: 2px solid #e0e0e0;
+    }
+
+        .grouping-options .form-check:has(input:checked) {
+            border-color: #7bed9f;
+            background-color: #f0fdf4 !important;
+        }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7bed9f 0%, #2ed573 100%);
+        border: none;
+        font-size: 1.3rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2ed573 0%, #1ea85a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 213, 115, 0.4);
+        }
+
+    .btn-outline-success {
+        border: 2px solid #2ed573;
+        color: #2ed573;
+        font-weight: 600;
+    }
+
+        .btn-outline-success:hover {
+            background: #2ed573;
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .card {
+        border-radius: 15px;
+        border: 2px solid rgba(123, 237, 159, 0.3);
+    }
+
+    .text-primary {
+        color: #2ed573 !important;
+    }
+
+    .alert {
+        font-size: 1.05rem;
+        border-radius: 10px;
+    }
+</style>

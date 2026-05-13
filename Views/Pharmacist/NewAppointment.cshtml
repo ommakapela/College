@@ -1,0 +1,93 @@
+﻿@* @model ibhayiPharmacy.Areas.Identity.Data.ApplicationUser
+
+@{
+    ViewData["Title"] = "Pharmacist Appointment";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+    <div class="site-wrap">
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-lg p-4">
+                        <h2 class="text-center text-primary mb-4">Register Customer</h2>
+
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-success text-center">
+                                @TempData["Success"]
+                            </div>
+                        }
+
+                        <form asp-action="RegisterCustomer" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Name" class="form-control" placeholder="Name" />
+                                <label asp-for="Name">Customer Name</label>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Surname" class="form-control" placeholder=" " />
+                                <label asp-for="Surname">Customer Surname</label>
+                                <span asp-validation-for="Surname" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" type="date" class="form-control" placeholder=" " />
+                                <label asp-for="Email">Date</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="IDNumber" class="form-control" placeholder=" " />
+                                <label asp-for="IDNumber">Cellphone</label>
+                                <span asp-validation-for="IDNumber" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Cellphone" class="form-control" placeholder=" " />
+                                <label asp-for="Cellphone">Time</label>
+                                <span asp-validation-for="Cellphone" class="text-danger"></span>
+                            </div>
+
+
+
+                            <a asp-controller="Pharmacist" asp-action="ViewCustomer" class="btn btn-primary">Submit</a>
+
+                            <div class="mt-3 text-center">
+                                <a asp-controller="Pharmacist" asp-action="Appointments" class="btn btn-primary">Back</a>
+                                <a asp-controller="Pharmacist" asp-action="Dashboard" class="btn btn-primary">Dashboard</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+
+</html>
+
+ *@

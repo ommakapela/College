@@ -1,0 +1,355 @@
+﻿@model ibhayiPharmacy.Models.Prescription
+@{
+    ViewData["Title"] = "Process Prescription";
+    var doctors = ViewBag.Doctors as List<ibhayiPharmacy.Models.Doctor>;
+    var medications = ViewBag.Medications as List<ibhayiPharmacy.Models.Medication>;
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>
+                <i class="fas fa-edit"></i> Process Prescription RX@Model.Id.ToString("D6")
+            </h2>
+            <hr />
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- PDF Preview -->
+        <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-pdf"></i> Prescription Document</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (ViewBag.PdfData != null)
+                    {
+                        <iframe src="@Url.Action("ViewPrescriptionPdf", new { id = Model.Id })"
+                                style="width: 100%; height: 800px; border: none;">
+                        </iframe>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning m-3">
+                            <i class="fas fa-exclamation-triangle"></i> No PDF available
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-user"></i> Patient Information</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2"><strong>Name:</strong> @Model.PatientName</p>
+                    @if (!string.IsNullOrEmpty(Model.PatientIDNumber))
+                    {
+                        <p class="mb-2"><strong>ID Number:</strong> @Model.PatientIDNumber</p>
+                    }
+                    <p class="mb-2"><strong>Uploaded:</strong> @Model.UploadDate.ToString("dd MMM yyyy HH:mm")</p>
+                    <p class="mb-2">
+                        <strong>Status:</strong>
+                        <span class="badge bg-warning">@Model.Status</span>
+                    </p>
+
+                    @if (ViewBag.CustomerAllergies != null && !string.IsNullOrEmpty(ViewBag.CustomerAllergies))
+                    {
+                        <hr />
+                        <div class="alert alert-warning mb-0">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-allergies"></i> Patient Has Allergies:
+                            </h6>
+                            <p class="mb-0 font-weight-bold">
+                                @ViewBag.CustomerAllergies
+                            </p>
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle"></i> The system will check for conflicts automatically
+                            </small>
+                        </div>
+                    }
+                    else
+                    {
+                        <hr />
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-check-circle text-success"></i> No known allergies recorded
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Form -->
+        <div class="col-md-6">
+            <form asp-action="ProcessPrescription" method="post" id="processForm">
+                <input type="hidden" name="id" value="@Model.Id" />
+
+                <div class="card shadow mb-3">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-clipboard-check"></i> Prescription Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="prescriptionDate" class="form-label">Prescription Date *</label>
+                            <input type="date"
+                                   class="form-control"
+                                   id="prescriptionDate"
+                                   name="prescriptionDate"
+                                   required
+                                   max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="doctorId" class="form-label">Doctor *</label>
+                            <select class="form-select" id="doctorId" name="doctorId" required>
+                                <option value="">-- Select Doctor --</option>
+                                @foreach (var doctor in doctors)
+                                {
+                                    <option value="@doctor.Id">@doctor.FullName - @doctor.PracticeNumber</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-3">
+                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-pills"></i> Medications
+                            <span class="badge bg-light text-dark" id="medCount">0</span>
+                        </h5>
+                        <button type="button" class="btn btn-sm btn-light" onclick="addMedication()">
+                            <i class="fas fa-plus"></i> Add Medication
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="medicationsContainer">
+                            <!-- Medications will be added here dynamically -->
+                        </div>
+                        <div id="noMedicationsMessage" class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> Click "Add Medication" to add medications to this prescription.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                        <i class="fas fa-check"></i> Process Prescription
+                    </button>
+                    <a asp-action="PendingPrescriptions" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Pending
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Medication Row Template -->
+<template id="medicationTemplate">
+    <div class="medication-row card mb-3" data-medication-index="">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center py-2">
+            <span class="medication-number badge bg-primary">Medication #</span>
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeMedication(this)">
+                <i class="fas fa-trash"></i> Remove
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <label class="form-label">Medication *</label>
+                    <select class="form-select medication-select" name="medicationIds[]" required>
+                        <option value="">-- Select Medication --</option>
+                        @foreach (var med in medications)
+                        {
+                            var strengths = med.MedicationActiveIngredients != null
+                            ? string.Join(", ", med.MedicationActiveIngredients.Select(mai => mai.Strength))
+                            : "";
+                            <option value="@med.Id" data-price="@med.Price">
+                                @med.Name
+                                @(string.IsNullOrEmpty(strengths) ? "" : $" ({strengths})")
+                                - R@med.Price.ToString("F2")
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label class="form-label">Quantity *</label>
+                    <input type="number" class="form-control" name="quantities[]" min="1" value="1" required>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label class="form-label">Repeats</label>
+                    <input type="number" class="form-control" name="repeats[]" min="0" value="0">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <label class="form-label">Price *</label>
+                    <input type="number" class="form-control unit-price" name="unitPrices[]" step="0.01" min="0" required readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">Instructions</label>
+                    <input type="text" class="form-control" name="instructions[]" placeholder="e.g., Take 1 tablet twice daily after meals">
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    let medicationIndex = 0;
+
+    function updateMedicationCount() {
+        const count = document.querySelectorAll('.medication-row').length;
+        document.getElementById('medCount').textContent = count;
+
+        // Show/hide no medications message
+        const noMedsMsg = document.getElementById('noMedicationsMessage');
+        if (count === 0) {
+            noMedsMsg.style.display = 'block';
+        } else {
+            noMedsMsg.style.display = 'none';
+        }
+
+        // Update medication numbers
+        document.querySelectorAll('.medication-row').forEach((row, index) => {
+            row.querySelector('.medication-number').textContent = `Medication #${index + 1}`;
+        });
+
+        console.log(`Total medications: ${count}`);
+    }
+
+    function addMedication() {
+        const template = document.getElementById('medicationTemplate');
+        const clone = template.content.cloneNode(true);
+
+        // Set unique index
+        const medicationRow = clone.querySelector('.medication-row');
+        medicationRow.setAttribute('data-medication-index', medicationIndex);
+
+        // Add to container
+        document.getElementById('medicationsContainer').appendChild(clone);
+
+        // Get the newly added row
+        const rows = document.querySelectorAll('.medication-row');
+        const newRow = rows[rows.length - 1];
+
+        // Add event listener to update price when medication is selected
+        const select = newRow.querySelector('.medication-select');
+        select.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            const priceInput = this.closest('.medication-row').querySelector('.unit-price');
+            if (price && priceInput) {
+                priceInput.value = parseFloat(price).toFixed(2);
+                console.log(`Price set to: R${price}`);
+            }
+        });
+
+        medicationIndex++;
+        updateMedicationCount();
+
+        console.log('Medication added successfully');
+    }
+
+    function removeMedication(button) {
+        const medicationRow = button.closest('.medication-row');
+        const index = medicationRow.getAttribute('data-medication-index');
+
+        if (confirm('Are you sure you want to remove this medication?')) {
+            medicationRow.remove();
+            updateMedicationCount();
+            console.log(`Medication #${index} removed`);
+        }
+    }
+
+    // Add first medication on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Page loaded, initializing...');
+        updateMedicationCount();
+
+        // Optionally add one medication by default
+        // addMedication();
+    });
+
+    // Form validation
+    document.getElementById('processForm').addEventListener('submit', function(e) {
+        const medicationCount = document.querySelectorAll('.medication-row').length;
+        console.log(`Submitting form with ${medicationCount} medications`);
+
+        if (medicationCount === 0) {
+            e.preventDefault();
+            alert('Please add at least one medication to the prescription.');
+            return false;
+        }
+
+        // Disable submit button to prevent double submission
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        return true;
+    });
+
+    // Log all medications before form submit (for debugging)
+    document.getElementById('processForm').addEventListener('submit', function(e) {
+        const medications = [];
+        document.querySelectorAll('.medication-row').forEach((row, index) => {
+            const medId = row.querySelector('select[name="medicationIds[]"]').value;
+            const qty = row.querySelector('input[name="quantities[]"]').value;
+            const repeats = row.querySelector('input[name="repeats[]"]').value;
+            const price = row.querySelector('input[name="unitPrices[]"]').value;
+            const instructions = row.querySelector('input[name="instructions[]"]').value;
+
+            medications.push({
+                index: index,
+                medicationId: medId,
+                quantity: qty,
+                repeats: repeats,
+                price: price,
+                instructions: instructions
+            });
+        });
+
+        console.log('Medications being submitted:', medications);
+    });
+</script>
+
+<style>
+    .medication-row {
+        border-left: 4px solid #17a2b8;
+        transition: all 0.3s ease;
+    }
+
+        .medication-row:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    #medCount {
+        font-size: 1rem;
+        padding: 0.35rem 0.65rem;
+    }
+
+    .medication-number {
+        font-size: 0.9rem;
+    }
+
+    #noMedicationsMessage {
+        margin-bottom: 0;
+    }
+</style>

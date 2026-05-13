@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Report";
+    // Layout = "~/Views/Shared/_PharmacistLayout.cshtml";
+}
+<br />
+<h2 class="text-center">MEDICATION REPORT</h2>
+<br />
+<h5 class="text-center">Pharmacist Jane Doe</h5>
+
+<div class="row">
+    <div class="col-md-6">Date Range: 2025-05-01 -- 2025-05-22</div>
+    <div class="col-md-6">Report Generated: @DateTime.Now.ToShortDateString()</div>
+</div>
+
+<br />
+<br />
+
+<table class="table table-hover table-sm" style="width:100%">
+    <caption>Total Customers: 3</caption>
+    <thead class="thead-dark">
+        <tr>
+            <th>Customer</th>
+            <th>Medication</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John Smith</td>
+            <td>Paracetamol</td>
+        </tr>
+        <tr>
+            <td>Emily Brown</td>
+            <td>Ibuprofen</td>
+        </tr>
+        <tr>
+            <td>Michael White</td>
+            <td>Amoxicillin</td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+<h3>Summary per Medication</h3>
+
+<table class="table table-hover table-sm" style="width:100%">
+    <thead class="thead-dark">
+        <tr>
+            <th>Medication</th>
+            <th>Quantity Administered</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Paracetamol</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td>Ibuprofen</td>
+            <td>15</td>
+        </tr>
+        <tr>
+            <td>Amoxicillin</td>
+            <td>10</td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+<br />
+<br />

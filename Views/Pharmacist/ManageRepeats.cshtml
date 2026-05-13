@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "Manage Repeats";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link href="~/https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(to right, #f5fdfb, #e1f5ec);
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #28a745;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .table thead th {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .order-summary {
+            text-align: right;
+            margin-top: 30px;
+            display: none;
+        }
+
+            .order-summary p {
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+        .btn-order {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            display: none;
+        }
+
+            .btn-order:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Manage Repeat Medication</h2>
+
+        <form id="orderForm" method="post" action="#">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Medication</th>
+                        <th>Doctor</th>
+                        <th>Quantity</th>
+                        <th>Instructions</th>
+                        <th>Repeats Left</th>
+                        <th>Price (R)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="med-check" data-price="120.00" /></td>
+                        <td>Amoxicillin</td>
+                        <td>Dr. Adams</td>
+                        <td>30</td>
+                        <td>1 tab twice daily</td>
+                        <td>2</td>
+                        <td>120.00</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="med-check" data-price="85.50" /></td>
+                        <td>Loratadine</td>
+                        <td>Dr. Ndlovu</td>
+                        <td>10</td>
+                        <td>1 tab at night</td>
+                        <td>1</td>
+                        <td>85.50</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="med-check" data-price="45.00" /></td>
+                        <td>Paracetamol</td>
+                        <td>Dr. Nkosi</td>
+                        <td>20</td>
+                        <td>2 tabs every 6 hrs</td>
+                        <td>3</td>
+                        <td>45.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="order-summary" id="summary">
+                <p>VAT (15%): R <span id="vat">0.00</span></p>
+                <p>Total Due: <strong>R <span id="total">0.00</span></strong></p>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-order px-5 py-2" id="placeOrder">Repeat</button>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="~/Pharmacist/Dashboard" class="btn btn-outline-secondary">← Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.med-check');
+        const summary = document.getElementById('summary');
+        const totalDisplay = document.getElementById('total');
+        const vatDisplay = document.getElementById('vat');
+        const placeOrderBtn = document.getElementById('placeOrder');
+
+        function updateSummary() {
+            let total = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    total += parseFloat(cb.dataset.price);
+                }
+            });
+
+            if (total > 0) {
+                const vat = (total * 0.15).toFixed(2);
+                total = (total + parseFloat(vat)).toFixed(2);
+                vatDisplay.textContent = vat;
+                totalDisplay.textContent = total;
+                summary.style.display = 'block';
+                placeOrderBtn.style.display = 'inline-block';
+            } else {
+                summary.style.display = 'none';
+                placeOrderBtn.style.display = 'none';
+            }
+        }
+
+        checkboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+    </script>
+</body>
+</html>
+
