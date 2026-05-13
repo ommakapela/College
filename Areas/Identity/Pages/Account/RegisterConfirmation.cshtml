@@ -1,0 +1,56 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register confirmation";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ibhayi Pharmacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+    <div class="site-wrap">
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-lg p-4">
+                        <h2 class="text-center text-primary mb-4">Registration Confirmation</h2>
+
+                        @if (Model.DisplayConfirmAccountLink)
+                        {
+                            <p class="text-center">
+                                This app does not currently have a real email sender registered.<br />
+                                See <a href="https://aka.ms/aspaccountconf" target="_blank">these docs</a> for how to configure one.<br />
+                                <br />
+                                <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-success">
+                                    Click here to confirm your account
+                                </a>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="text-center text-success fs-5">
+                                Please check your email to confirm your account.
+                            </p>
+                        }
+
+                        <div class="text-center mt-4">
+                            <a href="/" class="btn btn-outline-secondary">← Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
